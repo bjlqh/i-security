@@ -30,10 +30,15 @@ public class UserControllerTest {
 
     @Test
     public void whenQuerySuccess() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user")
-        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/user")
+                    .param("username","jack")
+                        .param("age","15")
+                        .param("ageTo","18")
+                        .param("xxx","yyy")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
     }
 
 

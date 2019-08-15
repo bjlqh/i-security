@@ -1,4 +1,4 @@
-package com.lqh.dev.pojo;
+package com.lqh.dev.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,9 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+public class UserCondition implements Serializable {
     private String username;
-    private String password;
+    private int age;
+    private int ageTo;
+    private String xxx;
 }
