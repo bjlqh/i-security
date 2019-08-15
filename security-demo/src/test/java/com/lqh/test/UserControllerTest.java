@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.UUID;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class UserControllerTest {
@@ -31,7 +33,9 @@ public class UserControllerTest {
     @Test
     public void whenQuerySuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/user")
-        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .param("username","jack")
+                .param("password", UUID.randomUUID().toString())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
     }
