@@ -1,6 +1,6 @@
 package com.lqh.test;
 
-import com.lqh.dev.DemoApplication;
+import com.lqh.demo.DemoApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

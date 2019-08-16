@@ -1,6 +1,6 @@
-package com.lqh.dev.controller;
+package com.lqh.demo.controller;
 
-import com.lqh.dev.pojo.User;
+import com.lqh.demo.pojo.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
