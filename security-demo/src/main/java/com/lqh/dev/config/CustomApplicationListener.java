@@ -1,15 +1,15 @@
 package com.lqh.dev.config;
 
-import javax.servlet.ServletContext;
+import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+@Configuration
 public class CustomApplicationListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ServletContext servletContext = servletContextEvent.getServletContext();
         System.out.println("servlet initializer");
-        System.out.println("contextPath"+servletContext.getContextPath());
     }
 
     @Override
