@@ -1,6 +1,6 @@
 package com.lqh.test;
 
-import com.lqh.demo.DemoApplication;
+import com.lqh.security.demo.DemoApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,9 @@ public class UserControllerTest {
     public void whenQuerySuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/user")
                 .param("username", "jack")
-                .param("password", UUID.randomUUID().toString())
+                .param("age", "16")
+                .param("ageTo","18")
+                .param("xxx",UUID.randomUUID().toString().substring(0,6))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));

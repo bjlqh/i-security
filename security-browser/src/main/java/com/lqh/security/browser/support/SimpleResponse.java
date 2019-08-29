@@ -1,4 +1,4 @@
-package com.lqh.demo.browser.support;
+package com.lqh.security.browser.support;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

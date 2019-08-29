@@ -17,6 +17,7 @@
 
     <properties>
         <security.core.version>1.0-SNAPSHOT</security.core.version>
+        <security.browser.version>1.0-SNAPSHOT</security.browser.version>
     </properties>
 
     <dependencyManagement>

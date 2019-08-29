@@ -1,12 +1,11 @@
-package com.lqh.demo;
+package com.lqh.security.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.ComponentScan;
 
-@RestController
+@ComponentScan(basePackages = {"com.lqh.security.core","com.lqh.security.browser"})
 @SpringBootApplication
 public class DemoApplication {
 
@@ -18,8 +17,4 @@ public class DemoApplication {
         }
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello spring security";
-    }
 }

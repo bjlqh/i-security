@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.lqh</groupId>
             <artifactId>security-browser</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${security.browser.version}</version>
         </dependency>
 
         <dependency>

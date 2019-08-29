@@ -1,4 +1,4 @@
-package com.lqh.demo.browser.config;
+package com.lqh.security.browser.config;
 
 import com.lqh.security.core.properties.SecurityProperties;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
-package com.lqh.demo.browser.controller;
+package com.lqh.security.browser.controller;
 
-import com.lqh.demo.browser.support.SimpleResponse;
+import com.lqh.security.browser.support.SimpleResponse;
 import com.lqh.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
