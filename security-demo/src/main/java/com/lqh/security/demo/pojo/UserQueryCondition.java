@@ -1,4 +1,4 @@
-package com.lqh.security.demo.dto;
+package com.lqh.security.demo.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

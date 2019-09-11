@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"com.lqh.security.core","com.lqh.security.browser"})
+@ComponentScan(basePackages = {"com.lqh.security.core","com.lqh.security.browser",
+        "com.lqh.security.demo"})
 @SpringBootApplication
 public class DemoApplication {
 
