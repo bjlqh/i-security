@@ -10,16 +10,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,8 +45,8 @@ public class UserControllerTest {
         mockMvc.perform(get("/user")
                 .param("username", "jack")
                 .param("age", "16")
-                .param("ageTo","18")
-                .param("xxx",UUID.randomUUID().toString().substring(0,6))
+                .param("ageTo", "18")
+                .param("xxx", UUID.randomUUID().toString().substring(0, 6))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(3));
@@ -65,21 +67,46 @@ public class UserControllerTest {
         MvcResult result = mockMvc.perform(builder)
                 .andExpect(status().is4xxClientError())
                 .andDo(print()).andReturn();
-        System.out.println("===="+result.getResponse().getContentAsString());
+        System.out.println("====" + result.getResponse().getContentAsString());
     }
 
     @Test
     public void whenCreateSuccess() throws Exception {
         Date date = new Date();
-        String content = "{\"username\":\"tom\",\"password\":null,\"birthday\":" + date.getTime() + "}";
+        String content = "{\"username\":\"tom\",\"password\": null,\"birthday\":" + date.getTime() + "}";
 
-        MockHttpServletRequestBuilder builder = post("/user").contentType(MediaType.APPLICATION_JSON_UTF8)
+        MockHttpServletRequestBuilder builder = post("/user")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content);
 
-        String contentAsString = mockMvc.perform(builder).andExpect(status().isOk())
+        String contentAsString = mockMvc.perform(builder)
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andReturn().getResponse().getContentAsString();
 
         System.out.println(contentAsString);
+    }
+
+    /**
+     * 400 401 404 405(请求方法不支持)
+     *
+     * @throws Exception
+     */
+    @Test
+    public void whenUpdateSuccess() throws Exception {
+        //jdk8 提供的时间+1年
+        Date date = new Date(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        String content = "{\"id\":\"1\",\"username\":\"tom\",\"password\": null,\"birthday\":" + date.getTime() + "}";
+
+        MockHttpServletRequestBuilder builder = put("/user/1")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON_UTF8);
+
+        String result = mockMvc.perform(builder)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println(result);
     }
 }

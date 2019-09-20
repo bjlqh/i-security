@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,23 +15,25 @@ import java.util.Date;
 @NoArgsConstructor
 public class User implements Serializable {
 
-    public interface SimpleView {
+    public interface UserSimpleView {
     }
 
     ;
 
-    public interface DetailView extends SimpleView {
+    public interface UserDetailView extends UserSimpleView {
     }
 
     ;
 
-    @JsonView(SimpleView.class)
-    private long id;
-    @JsonView(SimpleView.class)
+    @JsonView(UserSimpleView.class)
+    private String id;
+    @JsonView(UserSimpleView.class)
     private String username;
-    @NotBlank
-    @JsonView(DetailView.class)
+
+    @NotBlank(message = "密码不能为空")
+    @JsonView(UserDetailView.class)
     private String password;
-    @JsonView(SimpleView.class)
+    @Past(message = "生日只能是过去的时间")
+    @JsonView(UserSimpleView.class)
     private Date birthday;
 }
