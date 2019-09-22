@@ -5,6 +5,7 @@ import com.lqh.security.demo.pojo.User;
 import com.lqh.security.demo.pojo.UserQueryCondition;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,10 @@ public class UserController {
     @GetMapping("/{id:\\d++}")
     @JsonView(User.UserDetailView.class)
     public User getInfo(@PathVariable String id) {
-        System.out.println(id);
+
+        //throw new RuntimeException("user not exist, id: " + id);
+        //throw new UserNotExistException("user not exist!",id);
+        System.out.println("进入getInfo服务");
         User user = new User();
         user.setUsername("tom");
         return user;
@@ -52,7 +56,7 @@ public class UserController {
 
     /**
      * @param user
-     * @param errors @Valid 会根据User类里面的注解 如@NotBlank的错误信息会被放到errors里。
+     * @param  @Valid 会根据User类里面的注解 如@NotBlank的错误信息会被放到errors里。
      * @return
      */
     @PostMapping
@@ -83,5 +87,10 @@ public class UserController {
         System.out.println(user);
         user.setId("1");
         return user;
+    }
+
+    @DeleteMapping("/{id:\\d+}")
+    public void delete(@PathVariable String id) {
+        System.out.println(id);
     }
 }

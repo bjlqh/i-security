@@ -1,24 +1,16 @@
 package com.lqh.test;
 
-import com.lqh.security.demo.DemoApplication;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -26,19 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
-public class UserControllerTest {
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
+public class UserControllerTest extends ASecurityTest {
 
     @Test
     public void whenQuerySuccess() throws Exception {
@@ -88,7 +68,7 @@ public class UserControllerTest {
     }
 
     /**
-     * 400 401 404 405(请求方法不支持)
+     * 400 401 403 404 405(请求方法不支持)
      *
      * @throws Exception
      */
@@ -108,5 +88,13 @@ public class UserControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         System.out.println(result);
+    }
+
+    @Test
+    public void whenDeleteSuccess() throws Exception {
+        MockHttpServletRequestBuilder builder = delete("/user/1").contentType(MediaType.APPLICATION_JSON_UTF8);
+
+        mockMvc.perform(builder)
+                .andExpect(status().isOk());
     }
 }

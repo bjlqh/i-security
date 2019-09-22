@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authentication/form")//使用自定义表单登录
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require",
+                .antMatchers("/authentication/require", "/**",
                         securityProperties.getBrowser().getLoginPage()).permitAll()//过滤掉的请求
                 .anyRequest()//所有请求
                 .authenticated()//需要鉴权
