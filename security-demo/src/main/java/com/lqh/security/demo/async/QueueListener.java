@@ -36,7 +36,6 @@ public class QueueListener implements ApplicationListener<ContextRefreshedEvent>
             @Override
             public void run() {
                 while (true) {
-                    log.info("我一直在监听着呢");
                     if (StringUtils.isNotBlank(mockQueue.getCompleteOrder())) {
                         String orderId = mockQueue.getCompleteOrder();
                         log.info("返回订单处理结果,订单号为:" + orderId);
