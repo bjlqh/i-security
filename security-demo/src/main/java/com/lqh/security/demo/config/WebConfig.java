@@ -1,6 +1,8 @@
 package com.lqh.security.demo.config;
 
 import com.lqh.security.demo.filter.TimeFilter;
+import com.lqh.security.demo.interceptor.OrderDeferredResultInterceptor;
+import com.lqh.security.demo.interceptor.OrderInterceptor;
 import com.lqh.security.demo.interceptor.TimeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -22,6 +24,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private TimeInterceptor timeInterceptor;
+    @Autowired
+    private OrderInterceptor orderInterceptor;
+    @Autowired
+    private OrderDeferredResultInterceptor orderDeferredResultInterceptor;
 
     /**
      * 光使用 @Component还不够，还需要使用这个方法才能使拦截器生效
@@ -35,6 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(timeInterceptor).addPathPatterns("/user/*/**");
+        registry.addInterceptor(orderInterceptor).addPathPatterns("/order/**");
     }
 
     /**
@@ -45,7 +52,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        super.configureAsyncSupport(configurer);
+        configurer.registerDeferredResultInterceptors(orderDeferredResultInterceptor)
+                .setDefaultTimeout(1000);
     }
 
     /**

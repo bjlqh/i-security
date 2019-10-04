@@ -3,6 +3,8 @@ package com.lqh.security.demo.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.lqh.security.demo.pojo.User;
 import com.lqh.security.demo.pojo.UserQueryCondition;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,13 +23,15 @@ import java.util.List;
 /**
  * @author Administrator
  */
+@ApiOperation(value = "UserController", notes = "用户控制器")
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    @ApiOperation("条件查询")
     @GetMapping
     @JsonView(User.UserSimpleView.class)
-    public List<User> query(UserQueryCondition condition) {
+    public List<User> query(@ApiParam("查询条件") UserQueryCondition condition) {
         System.out.println(condition);
         ArrayList<User> users = new ArrayList<>();
         users.add(new User());
@@ -42,9 +46,10 @@ public class UserController {
         return "hello spring security";
     }
 
+    @ApiOperation("根据用户id获取用户详情")
     @GetMapping("/{id:\\d++}")
     @JsonView(User.UserDetailView.class)
-    public User getInfo(@PathVariable String id) {
+    public User getInfo(@PathVariable @ApiParam("用户id") String id) {
 
         //throw new RuntimeException("user not exist, id: " + id);
         //throw new UserNotExistException("user not exist!",id);
@@ -60,7 +65,7 @@ public class UserController {
      * @return
      */
     @PostMapping
-    public User create(@Valid @RequestBody User user, BindingResult errors) {
+    public User create(@Valid @RequestBody @ApiParam("用户对象") User user, BindingResult errors) {
 
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(s -> System.out.println(s.getDefaultMessage()));

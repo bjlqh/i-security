@@ -26,10 +26,10 @@ public class MockQueue {
 
     public void setPlaceOrder(String placeOrder) throws InterruptedException {
 
+        log.info("接到下单请求," + placeOrder + ",开始处理...");
         POOL.execute(() -> {
-            log.info("接到下单请求," + placeOrder + ",开始处理...");
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

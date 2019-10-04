@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -43,7 +44,7 @@ public class TimeInterceptor implements HandlerInterceptor {
 
         Map<String, String[]> parameterMap = httpServletRequest.getParameterMap();
         for (String key : parameterMap.keySet()) {
-            System.out.println(key + " : " + parameterMap.get(key));
+            System.out.println(key + " : " + Arrays.toString(parameterMap.get(key)));
         }
 
 
