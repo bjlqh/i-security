@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.annotation.Resource;
 
@@ -15,6 +17,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private SecurityProperties securityProperties;
+    @Resource
+    private AuthenticationSuccessHandler imoocAuthenticationSuccessHandler;
+    @Resource
+    private AuthenticationFailureHandler imoocAuthenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -26,9 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()//表单提交
                 .loginPage("/authentication/require")//使用自定义登录页
                 .loginProcessingUrl("/authentication/form")//使用自定义表单登录
+                .successHandler(imoocAuthenticationSuccessHandler)//自定义登录成功处理器
+                .failureHandler(imoocAuthenticationFailureHandler)//自定义登录失败处理器
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", "/**",
+                .antMatchers("/authentication/require",
                         securityProperties.getBrowser().getLoginPage()).permitAll()//过滤掉的请求
                 .anyRequest()//所有请求
                 .authenticated()//需要鉴权

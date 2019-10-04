@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "immoc.security")
+@ConfigurationProperties(prefix = "imooc.security")
 public class SecurityProperties {
 
     private BrowserProperties browser = new BrowserProperties();

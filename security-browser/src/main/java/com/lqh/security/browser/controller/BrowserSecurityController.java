@@ -26,7 +26,10 @@ import java.io.IOException;
 @RestController
 public class BrowserSecurityController {
 
-    //把当前的请求缓存到session里，在从session里拿出来。
+    /**
+     * 当需要身份认证时，springsecurity会发生跳转，跳转到loginPage配置的页面，
+     * 这时会将当前请求缓存到这个类中也就是session，身份认证通过后springsecurity会从session去拿原来的请求。
+     */
     private RequestCache requestCache = new HttpSessionRequestCache();
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
