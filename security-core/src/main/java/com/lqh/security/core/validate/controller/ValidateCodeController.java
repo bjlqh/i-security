@@ -1,7 +1,7 @@
 package com.lqh.security.core.validate.controller;
 
-import com.lqh.security.core.utils.RandomValidateCode;
 import com.lqh.security.core.validate.code.ImageCode;
+import com.lqh.security.core.validate.service.IValidateCodeGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -29,13 +29,13 @@ public class ValidateCodeController {
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     @Autowired
-    private RandomValidateCode randomValidateCode;
+    private IValidateCodeGenerator imageCodeGenerator;
 
 
     @GetMapping("/code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //1.生成验证码
-        ImageCode imageCode = randomValidateCode.getRandCode(request);
+        ImageCode imageCode = imageCodeGenerator.getRandCode(request);
         //2.将图片验证码放入session中
         sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY, imageCode);
         //3.写入响应中

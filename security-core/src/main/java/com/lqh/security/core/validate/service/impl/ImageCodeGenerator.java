@@ -1,12 +1,11 @@
-package com.lqh.security.core.utils;
+package com.lqh.security.core.validate.service.impl;
 
 import com.lqh.security.core.properties.SecurityProperties;
 import com.lqh.security.core.validate.code.ImageCode;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import com.lqh.security.core.validate.service.IValidateCodeGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.ServletRequestUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,13 +13,11 @@ import java.util.Random;
 
 /**
  * Author: liqihua
- * Date: 2019/10/6 15:03
+ * Date: 2019/10/6 23:49
  */
 
-@Component
-public class RandomValidateCode {
-
-    private static final Logger LOG = Logger.getLogger(RandomValidateCode.class);
+@Slf4j
+public class ImageCodeGenerator implements IValidateCodeGenerator {
 
     /**
      * 随机产生数字与字母组合的字符串
@@ -30,12 +27,16 @@ public class RandomValidateCode {
 
     private Random random = new Random();
 
-    @Resource
     private SecurityProperties securityProperties;
+
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
     /**
      * 生成随机图片
      */
+    @Override
     public ImageCode getRandCode(HttpServletRequest request) {
         //高度和宽度能取到从请求中获取，取不到就从配置中获取
         int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getValidateCode().getImageCode().getWidth());
@@ -64,7 +65,7 @@ public class RandomValidateCode {
         for (int i = 1; i <= length; i++) {
             randomString = drawString(g, randomString, i);
         }
-        LOG.info(randomString);
+        log.info(randomString);
 
         g.dispose();
 
