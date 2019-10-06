@@ -17,4 +17,6 @@ import org.springframework.stereotype.Component;
 public class SecurityProperties {
 
     private BrowserProperties browser = new BrowserProperties();
+
+    private ValidateCodeProperties validateCode = new ValidateCodeProperties();
 }

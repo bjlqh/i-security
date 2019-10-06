@@ -46,7 +46,7 @@ public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenti
         //如果配置发送json,就用json;否则就用父类的默认的页面跳转
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(authentication));
+            response.getWriter().write(objectMapper.writeValueAsString(authentication.getPrincipal()));
         } else {
             super.onAuthenticationSuccess(request, response, authentication);
         }

@@ -1,6 +1,7 @@
 package com.lqh.security.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lqh.security.browser.support.SimpleResponse;
 import com.lqh.security.core.properties.LoginType;
 import com.lqh.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }
