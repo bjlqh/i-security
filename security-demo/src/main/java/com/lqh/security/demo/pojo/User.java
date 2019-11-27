@@ -1,6 +1,7 @@
 package com.lqh.security.demo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.lqh.security.demo.model.GeneralViews;
 import com.lqh.security.demo.validator.MyConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class User implements Serializable {
 
-    public interface UserSimpleView {
+    public interface UserSimpleView extends GeneralViews.PublicView {
     }
 
     ;
@@ -33,6 +34,7 @@ public class User implements Serializable {
     @JsonView(UserSimpleView.class)
     private String username;
 
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "密码不能为空")
     @JsonView(UserDetailView.class)
     private String password;

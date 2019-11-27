@@ -1,6 +1,7 @@
 package com.lqh.security.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.lqh.security.demo.model.RespData;
 import com.lqh.security.demo.pojo.User;
 import com.lqh.security.demo.pojo.UserQueryCondition;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,32 +52,33 @@ public class UserController {
     @ApiOperation("条件查询")
     @GetMapping
     @JsonView(User.UserSimpleView.class)
-    public List<User> query(@ApiParam("查询条件") UserQueryCondition condition) {
-        System.out.println(condition);
-        ArrayList<User> users = new ArrayList<>();
-        users.add(new User());
-        users.add(new User());
-        users.add(new User());
+    public RespData<List<User>> query(@ApiParam("查询条件") UserQueryCondition condition) {
+        List<User> users = new ArrayList<>();
+        users.add(new User("1",condition.getUsername(),condition.getXxx(),new Date()));
+        users.add(new User("2",condition.getUsername(),condition.getXxx(),new Date()));
+        users.add(new User("3",condition.getUsername(),condition.getXxx(),new Date()));
         System.out.println(users);
-        return users;
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello spring security";
+        RespData<List<User>> response = new RespData<>();
+        response.setData(users);
+        return response;
     }
 
     @ApiOperation("根据用户id获取用户详情")
     @GetMapping("/{id:\\d++}")
     @JsonView(User.UserDetailView.class)
-    public User getInfo(@PathVariable @ApiParam("用户id") String id) {
+    public RespData<User> getInfo(@PathVariable @ApiParam("用户id") String id) {
 
         //throw new RuntimeException("user not exist, id: " + id);
         //throw new UserNotExistException("user not exist!",id);
-        System.out.println("进入getInfo服务");
         User user = new User();
+        user.setId(id);
         user.setUsername("tom");
-        return user;
+        user.setPassword("123456");
+        user.setBirthday(new Date());
+        System.out.println(user);
+        RespData<User> response = new RespData<>();
+        response.setData(user);
+        return response;
     }
 
     /**
